@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './PizzaSuggestions.css';
-import {Link} from 'react-router-dom';
+import { push } from 'react-router-redux'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import PizzaList from '../PizzaList'
 
 class PizzaSuggestions extends Component {
@@ -11,9 +13,13 @@ class PizzaSuggestions extends Component {
                 <br/>
                 <PizzaList/>
                 <br/>
-                <button className="create_own_pizza"><Link to="/create">Create a Pizza!</Link></button>
+                <button className="create_own_pizza" onClick={()=>this.props.goCreatePizza()}>Create a Pizza!</button>
             </div>           
         );
     }
 }
-export default PizzaSuggestions;
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+    goCreatePizza: () => push('/create')
+}, dispatch)
+export default connect(null,mapDispatchToProps)(PizzaSuggestions);
