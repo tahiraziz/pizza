@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import './CreatePizza.css';
 
-class CreatePizza extends Component {
+class CreatePizza extends Component { 
   render() {
     return (
         <div>
