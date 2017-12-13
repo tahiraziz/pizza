@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
 import Home from "./containers/Home";
 import "./App.css";
-import { PizzaView } from "./components/PizzaView/index";
+import PizzaView from "./containers/PizzaView";
 
 class App extends Component {
   constructor(props) {
