@@ -5,11 +5,9 @@ class Pizza extends Component {
   render() {
     return (
       <div>
-        <p>{this.props.ingredients.name}</p>
-        <p>{this.props.ingredients.crust}</p>
-        <p>{this.props.ingredients.cheeses}</p>
-        <p>{this.props.ingredients.meats}</p>
-        <p>{this.props.ingredients.veggies}</p>
+        <p>{this.props.highlights.name}</p>
+        <p>{this.props.highlights.description}</p>
+        <p>{this.props.highlights.pizzams}</p>
       </div>
     );
   }

@@ -25,10 +25,9 @@ class Home extends Component {
       for (let pizza in pizzas) {
         newState.push({
           name: pizzas[pizza].name,
-          cheeses: pizzas[pizza].cheeses,
-          crust: pizzas[pizza].crust,
-          meats: pizzas[pizza].meats,
-          veggies: pizzas[pizza].veggies
+          id: pizzas[pizza].id,
+          description: pizzas[pizza].description,
+          pizzams: pizzas[pizza].pizzams
         });
       }
       this.setState({
@@ -40,11 +39,11 @@ class Home extends Component {
   render() {
     let pizzas = this.state.pizzas.map(pizza => (
       <Link
-        to={`/${pizza.name.replace(/" "/g, "")}`}
-        key={pizza.name}
-        onClick={() => this.selectPizza(pizza)}
+        to={`/${pizza.id}`}
+        key={pizza.id}
+        onClick={() => this.selectPizza(pizza.id)}
       >
-        <Pizza ingredients={pizza} />
+        <Pizza highlights={pizza} />
       </Link>
     ));
     return (

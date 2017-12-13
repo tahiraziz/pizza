@@ -22,10 +22,7 @@ class App extends Component {
             path="/"
             render={() => <Home onPizzaSelection={this.handlePizzaSelection} />}
           />
-          <Route
-            path="/:pizzaId"
-            render={() => <PizzaView pizza={this.state.selectedPizza} />}
-          />
+          <Route path="/:pizzaId" component={PizzaView} />
         </Switch>
       </div>
     );
