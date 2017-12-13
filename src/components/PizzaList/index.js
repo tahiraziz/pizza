@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import Pizza from "../Pizza";
 import firebase from "../../firebase.js";
 
@@ -32,15 +33,28 @@ class PizzaList extends Component {
   componentWillUnmount() {}
   render() {
     let pizzas = this.state.pizzas.map(pizza => (
-      <Pizza
-        name={pizza.name}
-        cheeses={pizza.cheeses}
-        crust={pizza.crust}
-        meats={pizza.meats}
-        veggies={pizza.veggies}
-      />
+      <Link to={`/${pizza.name.replace(/" "/g, "")}`}>
+        <Pizza
+          key={pizza.name}
+          name={pizza.name}
+          cheeses={pizza.cheeses}
+          crust={pizza.crust}
+          meats={pizza.meats}
+          veggies={pizza.veggies}
+        />
+      </Link>
     ));
-    return <div className="pizzaList">{pizzas}</div>;
+    return (
+      <div className="pizzaList">
+        <h2 className="pizzaList__header">
+          The trendiest pizzas{" "}
+          <span role="img" aria-label="pizza emoji">
+            🍕
+          </span>
+        </h2>
+        {pizzas}
+      </div>
+    );
   }
 }
 
