@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import firebase from "../../firebase.js";
-// import { Route, Link } from "react-router-dom";
-// import Done from "../Done";
+import { Link } from "react-router-dom";
 import "./PizzaView.css";
 
 export class PizzaView extends Component {
@@ -10,6 +9,7 @@ export class PizzaView extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleOrder = this.handleOrder.bind(this);
     this.pizza = {};
+    this.validOrder = false;
     this.state = {
       customPizza: {}
     };
@@ -84,14 +84,12 @@ export class PizzaView extends Component {
     return true;
   }
   hasNoCheese(cheeses) {
-    console.log(cheeses);
     let numCheeses = 0;
     for (let cheese in cheeses) {
       if (cheeses[cheese] === true) {
         numCheeses++;
       }
     }
-    console.log(numCheeses);
     return numCheeses === 0;
   }
   handleOrder() {
@@ -104,6 +102,7 @@ export class PizzaView extends Component {
     } else if (this.hasNoCheese(this.state.customPizza.cheeses) === true) {
       alert("You want a pizza with no cheese? Lame. Pick a cheese, or four.");
     } else {
+      this.validOrder = true;
       if (this.arePizzasEqual() === true) {
         //update pizzams and send to firebase
         this.pizza.pizzams++;
@@ -205,6 +204,10 @@ export class PizzaView extends Component {
     ];
     const pizzaName = Object.keys(this.state.customPizza)[0];
     const pizzaDesc = Object.keys(this.state.customPizza)[2];
+    const nextLink =
+      this.validOrder === true
+        ? `/${this.props.match.params.pizzaId}/pizzam`
+        : `/${this.props.match.params.pizzaId}`;
     return (
       <section className="pizzaView">
         <div className="pizzaView__description">
@@ -230,7 +233,9 @@ export class PizzaView extends Component {
         </div>
         <form className="pizzaView__toppings">
           {this.renderToppings(pizzaToppings, toppingCategories)}
-          <input type="submit" value="Order 🍕" onClick={this.handleOrder} />
+          <Link to={nextLink} onClick={this.handleOrder}>
+            <input type="submit" value="Order 🍕" />
+          </Link>
           <button onClick={this.resetState}>Reset Pizza</button>
         </form>
       </section>
