@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import firebase from "../../firebase.js";
-import { Route } from "react-router-dom";
-import Done from "../Done";
+// import { Route, Link } from "react-router-dom";
+// import Done from "../Done";
 import "./PizzaView.css";
 
 export class PizzaView extends Component {
@@ -42,6 +42,21 @@ export class PizzaView extends Component {
       customPizza: newPizza
     });
   }
+  resetState() {
+    let resetPizza = {
+      name: this.pizza.name,
+      id: this.pizza.id,
+      description: this.pizza.description,
+      pizzams: this.pizza.pizzams,
+      crust: this.pizza.crust,
+      cheeses: this.pizza.cheeses,
+      meats: this.pizza.meats,
+      veggies: this.pizza.veggies
+    };
+    this.setState({
+      customPizza: resetPizza
+    });
+  }
   arePizzasEqual() {
     //from http://adripofjavascript.com/blog/drips/object-equality-in-javascript.html
     // Create arrays of property names
@@ -68,14 +83,16 @@ export class PizzaView extends Component {
     // are considered equivalent
     return true;
   }
-  hasCheese(cheeses) {
-    let verdict = false;
+  hasNoCheese(cheeses) {
+    console.log(cheeses);
+    let numCheeses = 0;
     for (let cheese in cheeses) {
-      if (cheese === true) {
-        verdict = true;
-        return verdict;
+      if (cheeses[cheese] === true) {
+        numCheeses++;
       }
     }
+    console.log(numCheeses);
+    return numCheeses === 0;
   }
   handleOrder() {
     if (this.state.customPizza.name.trim() === "") {
@@ -84,12 +101,9 @@ export class PizzaView extends Component {
       alert(
         "Your pizza should have a really good description. Fill it out m8."
       );
-    } else if (this.hasCheese(this.state.customPizza.cheeses) === false) {
-      alert(
-        "You want a pizza with no cheese? Lame. Pick a cheese, or pick four of them."
-      );
+    } else if (this.hasNoCheese(this.state.customPizza.cheeses) === true) {
+      alert("You want a pizza with no cheese? Lame. Pick a cheese, or four.");
     } else {
-      console.log(this.pizza);
       if (this.arePizzasEqual() === true) {
         //update pizzams and send to firebase
         this.pizza.pizzams++;
@@ -100,7 +114,6 @@ export class PizzaView extends Component {
       } else {
         let custom = this.state.customPizza;
         custom.pizzams++;
-        console.log(custom);
         firebase
           .database()
           .ref("pizzas/" + custom.id)
@@ -192,10 +205,8 @@ export class PizzaView extends Component {
     ];
     const pizzaName = Object.keys(this.state.customPizza)[0];
     const pizzaDesc = Object.keys(this.state.customPizza)[2];
-    console.log(this.arePizzasEqual());
     return (
       <section className="pizzaView">
-        <Route path="/:pizzaId/pizzam" component={Done} />
         <div className="pizzaView__description">
           <h2>{this.state.customPizza.name}</h2>
           <h3>{this.state.customPizza.description}</h3>
@@ -220,6 +231,7 @@ export class PizzaView extends Component {
         <form className="pizzaView__toppings">
           {this.renderToppings(pizzaToppings, toppingCategories)}
           <input type="submit" value="Order 🍕" onClick={this.handleOrder} />
+          <button onClick={this.resetState}>Reset Pizza</button>
         </form>
       </section>
     );
