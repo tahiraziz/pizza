@@ -55,7 +55,7 @@ class Home extends Component {
         />
         <div className="pizzaList">
           <h2 className="pizzaList__header">
-            The trendiest pizzas
+            The Trendiest Pizzas
             <span role="img" aria-label="pizza emoji">
               🍕
             </span>

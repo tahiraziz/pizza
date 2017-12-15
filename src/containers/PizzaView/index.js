@@ -9,7 +9,7 @@ export class PizzaView extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleOrder = this.handleOrder.bind(this);
     this.pizza = {};
-    this.validOrder = false;
+    this.validOrder = true;
     this.state = {
       customPizza: {}
     };
@@ -95,14 +95,16 @@ export class PizzaView extends Component {
   handleOrder() {
     if (this.state.customPizza.name.trim() === "") {
       alert("Your pizza should have a really cool name. Fill it in m8.");
+      this.validOrder = false;
     } else if (this.state.customPizza.description.trim() === "") {
       alert(
         "Your pizza should have a really good description. Fill it out m8."
       );
+      this.validOrder = false;
     } else if (this.hasNoCheese(this.state.customPizza.cheeses) === true) {
       alert("You want a pizza with no cheese? Lame. Pick a cheese, or four.");
+      this.validOrder = false;
     } else {
-      this.validOrder = true;
       if (this.arePizzasEqual() === true) {
         //update pizzams and send to firebase
         this.pizza.pizzams++;
@@ -194,6 +196,13 @@ export class PizzaView extends Component {
       </div>
     ));
   }
+  findNextLink() {
+    const nextLink = this.validOrder
+      ? `/${this.state.customPizza.id}/pizzam`
+      : `/${this.state.customPizza.id}`;
+
+    return nextLink;
+  }
   render() {
     const toppingCategories = ["Crust", "Cheeses", "Meats", "Veggies"];
     let pizzaToppings = [
@@ -204,10 +213,7 @@ export class PizzaView extends Component {
     ];
     const pizzaName = Object.keys(this.state.customPizza)[0];
     const pizzaDesc = Object.keys(this.state.customPizza)[2];
-    const nextLink =
-      this.validOrder === true
-        ? `/${this.props.match.params.pizzaId}/pizzam`
-        : `/${this.props.match.params.pizzaId}`;
+
     return (
       <section className="pizzaView">
         <div className="pizzaView__description">
@@ -233,7 +239,7 @@ export class PizzaView extends Component {
         </div>
         <form className="pizzaView__toppings">
           {this.renderToppings(pizzaToppings, toppingCategories)}
-          <Link to={nextLink} onClick={this.handleOrder}>
+          <Link to={this.findNextLink()} onClick={this.handleOrder}>
             <input type="submit" value="Order 🍕" />
           </Link>
           <button onClick={this.resetState}>Reset Pizza</button>

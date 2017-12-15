@@ -1,7 +1,7 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import PizzaView from "../PizzaView";
-import Done from "../Done";
+import { PizzaView } from "../PizzaView/index";
+import { Done } from "../Done/index";
 
 const Order = () => {
   return (

@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
 import Home from "./containers/Home";
-import Order from "./containers/Order";
 import "./App.css";
-// import PizzaView from "./containers/PizzaView";
+import Order from "./containers/Order";
 
 class App extends Component {
   constructor(props) {
@@ -23,7 +22,6 @@ class App extends Component {
             path="/"
             render={() => <Home onPizzaSelection={this.handlePizzaSelection} />}
           />
-          {/* <Route path="/:pizzaId" component={PizzaView} /> */}
           <Route path="/:pizzaId" component={Order} />
         </Switch>
       </div>

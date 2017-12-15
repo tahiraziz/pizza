@@ -6,7 +6,14 @@ export class Done extends Component {
     this.state = {};
   }
   render() {
-    return <h1 className="done">PIZZAM!</h1>;
+    return (
+      <div className="done">
+        <h1 className="done__title">PIZZAM!</h1>
+        <h2 className="done__subtitle">
+          You just ordered a pizza that someone awesome designed.
+        </h2>
+      </div>
+    );
   }
 }
 
