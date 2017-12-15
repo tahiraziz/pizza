@@ -23,6 +23,10 @@ class App extends Component {
             render={() => <Home onPizzaSelection={this.handlePizzaSelection} />}
           />
           <Route path="/:pizzaId" component={Order} />
+          {/**********************
+           * **********
+           * move handle selction on home to Order and add invalid routes
+           */}
         </Switch>
       </div>
     );
