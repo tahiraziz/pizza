@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import firebase from "../../firebase.js";
+import { Route } from "react-router-dom";
+import Done from "../Done";
 import "./PizzaView.css";
 
 export class PizzaView extends Component {
@@ -7,10 +9,10 @@ export class PizzaView extends Component {
     super(props);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleOrder = this.handleOrder.bind(this);
+    this.pizza = {};
     this.state = {
       customPizza: {}
     };
-    this.pizza = {};
   }
   handleInputChange(e, cat) {
     const target = e.target;
@@ -31,6 +33,8 @@ export class PizzaView extends Component {
       }
     } else if (cat === "name" || cat === "description") {
       newPizza[category] = value;
+      newPizza.id = newPizza.name.replace(" ", "");
+      newPizza.pizzams = 0;
     } else {
       newPizza[category][name] = value;
     }
@@ -38,7 +42,72 @@ export class PizzaView extends Component {
       customPizza: newPizza
     });
   }
-  handleOrder() {}
+  arePizzasEqual() {
+    //from http://adripofjavascript.com/blog/drips/object-equality-in-javascript.html
+    // Create arrays of property names
+    var aProps = Object.getOwnPropertyNames(this.pizza);
+    var bProps = Object.getOwnPropertyNames(this.state.customPizza);
+
+    // If number of properties is different,
+    // objects are not equivalent
+    if (aProps.length !== bProps.length) {
+      return false;
+    }
+
+    for (var i = 0; i < aProps.length; i++) {
+      var propName = aProps[i];
+
+      // If values of same property are not equal,
+      // objects are not equivalent
+      if (this.pizza[propName] !== this.state.customPizza[propName]) {
+        return false;
+      }
+    }
+
+    // If we made it this far, objects
+    // are considered equivalent
+    return true;
+  }
+  hasCheese(cheeses) {
+    let verdict = false;
+    for (let cheese in cheeses) {
+      if (cheese === true) {
+        verdict = true;
+        return verdict;
+      }
+    }
+  }
+  handleOrder() {
+    if (this.state.customPizza.name.trim() === "") {
+      alert("Your pizza should have a really cool name. Fill it in m8.");
+    } else if (this.state.customPizza.description.trim() === "") {
+      alert(
+        "Your pizza should have a really good description. Fill it out m8."
+      );
+    } else if (this.hasCheese(this.state.customPizza.cheeses) === false) {
+      alert(
+        "You want a pizza with no cheese? Lame. Pick a cheese, or pick four of them."
+      );
+    } else {
+      console.log(this.pizza);
+      if (this.arePizzasEqual() === true) {
+        //update pizzams and send to firebase
+        this.pizza.pizzams++;
+        firebase
+          .database()
+          .ref("pizzas/" + this.pizza.id)
+          .set(this.pizza);
+      } else {
+        let custom = this.state.customPizza;
+        custom.pizzams++;
+        console.log(custom);
+        firebase
+          .database()
+          .ref("pizzas/" + custom.id)
+          .set(custom);
+      }
+    }
+  }
   componentDidMount() {
     const pizzaRef = firebase
       .database()
@@ -55,10 +124,20 @@ export class PizzaView extends Component {
         meats: pizza.meats,
         veggies: pizza.veggies
       };
+      let ogPizza = {
+        name: pizza.name,
+        id: pizza.id,
+        description: pizza.description,
+        pizzams: pizza.pizzams,
+        crust: pizza.crust,
+        cheeses: pizza.cheeses,
+        meats: pizza.meats,
+        veggies: pizza.veggies
+      };
+      this.pizza = ogPizza;
       this.setState({
         customPizza: newState
       });
-      this.pizza = newState;
     });
   }
   renderToppingInputs(toppingCategory, topping) {
@@ -113,8 +192,10 @@ export class PizzaView extends Component {
     ];
     const pizzaName = Object.keys(this.state.customPizza)[0];
     const pizzaDesc = Object.keys(this.state.customPizza)[2];
+    console.log(this.arePizzasEqual());
     return (
       <section className="pizzaView">
+        <Route path="/:pizzaId/pizzam" component={Done} />
         <div className="pizzaView__description">
           <h2>{this.state.customPizza.name}</h2>
           <h3>{this.state.customPizza.description}</h3>
