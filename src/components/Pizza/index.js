@@ -7,7 +7,7 @@ class Pizza extends Component {
       <div>
         <p>{this.props.highlights.name}</p>
         <p>{this.props.highlights.description}</p>
-        <p>{this.props.highlights.pizzams}</p>
+        <p>{this.props.highlights.pizzams} Pizzams</p>
       </div>
     );
   }

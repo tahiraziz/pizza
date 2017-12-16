@@ -36,10 +36,6 @@ class App extends Component {
           />
           <Redirect to="/" />
         </Switch>
-        {/**********************
-         * **********
-         * render error page on non valid pizza
-         */}
       </div>
     );
   }
