@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 export class Done extends Component {
   constructor(props) {
@@ -12,6 +13,9 @@ export class Done extends Component {
         <h2 className="done__subtitle">
           You just ordered a pizza that someone awesome designed.
         </h2>
+        <Link to={"/"}>
+          <button>Return Home</button>
+        </Link>
       </div>
     );
   }

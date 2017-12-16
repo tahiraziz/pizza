@@ -217,6 +217,7 @@ export class PizzaView extends Component {
     return (
       <section className="pizzaView">
         <div className="pizzaView__description">
+          <h1>Confirm or Customize your Pizza</h1>
           <h2>{this.state.customPizza.name}</h2>
           <h3>{this.state.customPizza.description}</h3>
           <label>
