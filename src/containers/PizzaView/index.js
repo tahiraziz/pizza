@@ -9,7 +9,6 @@ export class PizzaView extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleOrder = this.handleOrder.bind(this);
     this.pizza = null;
-    this.showError = false;
     this.validOrder = true;
     this.state = {
       customPizza: {}
@@ -129,34 +128,30 @@ export class PizzaView extends Component {
       .ref("pizzas/" + this.props.match.params.pizzaId);
     pizzaRef.on("value", snapshot => {
       let pizza = snapshot.val();
-      if (pizza !== null) {
-        let newState = {
-          name: pizza.name,
-          id: pizza.id,
-          description: pizza.description,
-          pizzams: pizza.pizzams,
-          crust: pizza.crust,
-          cheeses: pizza.cheeses,
-          meats: pizza.meats,
-          veggies: pizza.veggies
-        };
-        let ogPizza = {
-          name: pizza.name,
-          id: pizza.id,
-          description: pizza.description,
-          pizzams: pizza.pizzams,
-          crust: pizza.crust,
-          cheeses: pizza.cheeses,
-          meats: pizza.meats,
-          veggies: pizza.veggies
-        };
-        this.pizza = ogPizza;
-        this.setState({
-          customPizza: newState
-        });
-      } else {
-        this.showError = true;
-      }
+      let newState = {
+        name: pizza.name,
+        id: pizza.id,
+        description: pizza.description,
+        pizzams: pizza.pizzams,
+        crust: pizza.crust,
+        cheeses: pizza.cheeses,
+        meats: pizza.meats,
+        veggies: pizza.veggies
+      };
+      let ogPizza = {
+        name: pizza.name,
+        id: pizza.id,
+        description: pizza.description,
+        pizzams: pizza.pizzams,
+        crust: pizza.crust,
+        cheeses: pizza.cheeses,
+        meats: pizza.meats,
+        veggies: pizza.veggies
+      };
+      this.pizza = ogPizza;
+      this.setState({
+        customPizza: newState
+      });
     });
   }
   renderToppingInputs(toppingCategory, topping) {
@@ -219,11 +214,7 @@ export class PizzaView extends Component {
     const pizzaName = Object.keys(this.state.customPizza)[0];
     const pizzaDesc = Object.keys(this.state.customPizza)[2];
 
-    return this.showError === true ? (
-      <section className="error">
-        <h1>Sorry, we only have real pizzas here.</h1>
-      </section>
-    ) : (
+    return (
       <section className="pizzaView">
         <div className="pizzaView__description">
           <h1>Confirm or Customize your Pizza</h1>
