@@ -39,7 +39,7 @@ class Home extends Component {
   render() {
     let pizzas = this.state.pizzas.map(pizza => (
       <Link
-        to={`/${pizza.id}`}
+        to={`/order/${pizza.id}`}
         key={pizza.id}
         onClick={() => this.selectPizza(pizza.id)}
       >
