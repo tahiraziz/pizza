@@ -8,9 +8,8 @@ To-do:
 
 * styles
 * user authentication
-* invalid route handling
-* integrate social aspect in the site somehow
+* determine how to integrate social aspect
 
-Note: this is a mid-fi protoype of an idea in the works
+Note: this is a low-fi code protoype of an idea in the works
 
 © Copyright Tahir Aziz 2017
