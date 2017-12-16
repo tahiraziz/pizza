@@ -19,19 +19,27 @@ class App extends Component {
     return (
       <div className="App">
         <Switch>
+          <Route exact path="/" render={() => <Home />} />
+          {/* <Route path="/:pizzaId" component={Order} /> */}
           <Route
             exact
-            path="/"
-            render={() => <Home onPizzaSelection={this.handlePizzaSelection} />}
+            path="/order/:pizzaId"
+            render={props => (
+              <PizzaView
+                onPizzaSelection={this.handlePizzaSelection}
+                {...props}
+              />
+            )}
           />
-          {/* <Route path="/:pizzaId" component={Order} /> */}
-          <Route exact path="/order/:pizzaId" component={PizzaView} />
-          <Route path="/pizzam" component={Done} />
+          <Route
+            path="/pizzam"
+            render={() => <Done pizzaSelection={this.state.selectedPizza} />}
+          />
           <Redirect to="/" />
         </Switch>
         {/**********************
          * **********
-         * move handle selction on home to Order and add invalid routes
+         * move handle selction on home to pizzaview
          */}
       </div>
     );

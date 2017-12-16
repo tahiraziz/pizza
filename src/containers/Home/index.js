@@ -9,13 +9,9 @@ import firebase from "../../firebase.js";
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.selectPizza = this.selectPizza.bind(this);
     this.state = {
       pizzas: []
     };
-  }
-  selectPizza(selection) {
-    this.props.onPizzaSelection(selection);
   }
   componentDidMount() {
     const itemsRef = firebase.database().ref("pizzas");
@@ -38,11 +34,7 @@ class Home extends Component {
   componentWillUnmount() {}
   render() {
     let pizzas = this.state.pizzas.map(pizza => (
-      <Link
-        to={`/order/${pizza.id}`}
-        key={pizza.id}
-        onClick={() => this.selectPizza(pizza.id)}
-      >
+      <Link to={`/order/${pizza.id}`} key={pizza.id}>
         <Pizza highlights={pizza} />
       </Link>
     ));

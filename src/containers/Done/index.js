@@ -11,7 +11,8 @@ export class Done extends Component {
       <div className="done">
         <h1 className="done__title">PIZZAM!</h1>
         <h2 className="done__subtitle">
-          You just ordered a pizza that someone awesome designed.
+          You just ordered a {this.props.pizzaSelection} pizza that someone
+          awesome designed.
         </h2>
         <Link to={"/"}>
           <button>Return Home</button>

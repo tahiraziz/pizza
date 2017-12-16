@@ -8,11 +8,15 @@ export class PizzaView extends Component {
     super(props);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleOrder = this.handleOrder.bind(this);
+    this.selectPizza = this.selectPizza.bind(this);
     this.pizza = null;
     this.validOrder = true;
     this.state = {
       customPizza: {}
     };
+  }
+  selectPizza(selection) {
+    this.props.onPizzaSelection(selection);
   }
   handleInputChange(e, cat) {
     const target = e.target;
@@ -112,6 +116,7 @@ export class PizzaView extends Component {
           .database()
           .ref("pizzas/" + this.pizza.id)
           .set(this.pizza);
+        this.selectPizza(this.pizza.name);
       } else {
         let custom = this.state.customPizza;
         custom.pizzams++;
@@ -119,6 +124,7 @@ export class PizzaView extends Component {
           .database()
           .ref("pizzas/" + custom.id)
           .set(custom);
+        this.selectPizza(this.custom.name);
       }
     }
   }
