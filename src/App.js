@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Home from "./containers/Home";
 import "./App.css";
-import Order from "./containers/Order";
 import { PizzaView } from "./containers/PizzaView/index";
 import Done from "./containers/Done";
 
@@ -39,7 +38,7 @@ class App extends Component {
         </Switch>
         {/**********************
          * **********
-         * move handle selction on home to pizzaview
+         * render error page on non valid pizza
          */}
       </div>
     );
