@@ -23,6 +23,6 @@ To-do:
 
 - remove error message in pizzaview because redirect handles that already
 
-Note: this is a low-fi code protoype of an idea in the works
+Note: this is a low-fi code prototype of an idea in the works
 
 © Copyright Tahir Aziz 2017
